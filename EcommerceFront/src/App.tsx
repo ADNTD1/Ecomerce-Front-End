@@ -6,6 +6,8 @@ import PromoBanner from './components/Promobanner'
 import CategoryCarousel from './components/CategoryCarousel';
 import ProductGrid from './components/ProductGrid';
 
+
+
 function App() {
   
 
@@ -24,7 +26,9 @@ function App() {
         <CategoryCarousel/>
     </div>
     <ProductGrid/>
+
     </>
+
   )
 }
 

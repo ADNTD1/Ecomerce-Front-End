@@ -1,4 +1,3 @@
-
 .Navbar {
     font-family: 'Roboto', sans-serif;
     display: flex;
@@ -15,21 +14,20 @@
 }
 
 .Navbar-buttons button {
-  border: none;
-  background-color: transparent;
-  padding: 0.5rem 1rem;
-  cursor: pointer;
-  font-size: 0.8rem;
-  text-decoration: underline;
-  width: 100px;        
-  text-align: center;
-  transition: color 0.2s ease;
-  
+    border: none;
+    background-color: transparent;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    font-size: 0.8rem;
+    text-decoration: underline;
+    width: 100px;        
+    text-align: center;
+    transition: color 0.2s ease;
 }
 
 .Navbar-buttons button:hover {
-  font-weight: bold;  
-  color: #000000;
+    font-weight: bold;  
+    color: #000000;
 }
 
 .Navbar-left {
@@ -40,4 +38,24 @@
     font-size: 13px;
 }
 
+.ModalOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0); /* transparente */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10001; /* por encima del navbar */
+}
 
+/* Contenedor centrado del formulario */
+.ModalContent {
+    z-index: 10002; /* por encima del overlay */
+    background: transparent; /* sin recuadro */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
