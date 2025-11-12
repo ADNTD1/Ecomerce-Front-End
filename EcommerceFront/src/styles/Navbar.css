@@ -1,0 +1,43 @@
+
+.Navbar {
+    font-family: 'Roboto', sans-serif;
+    display: flex;
+    position: fixed;
+    top: 0%;
+    left: 0%;
+    background-color: rgb(255, 255, 255);
+    width: 100%; 
+    height: 28px;
+    border-bottom: 1px solid #c9c7c7;
+    align-items: center;
+    justify-content: space-between;
+    z-index: 10000;
+}
+
+.Navbar-buttons button {
+  border: none;
+  background-color: transparent;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  font-size: 0.8rem;
+  text-decoration: underline;
+  width: 100px;        
+  text-align: center;
+  transition: color 0.2s ease;
+  
+}
+
+.Navbar-buttons button:hover {
+  font-weight: bold;  
+  color: #000000;
+}
+
+.Navbar-left {
+    margin-left: 10px;
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    font-size: 13px;
+}
+
+

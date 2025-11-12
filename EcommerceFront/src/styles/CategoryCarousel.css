@@ -1,0 +1,65 @@
+.CategoryCarousel {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 4.5rem; 
+  overflow-x: auto;
+  padding: 2rem 2.5rem;
+  background-color: #ffffff;
+  border-top: 1px solid #eee;
+  border-bottom: 1px solid #eee;
+  scroll-behavior: smooth;
+  margin-top: 80px   
+}
+
+.CategoryCarousel::-webkit-scrollbar {
+  height: 1px;
+}
+
+.CategoryCarousel::-webkit-scrollbar-thumb {
+  background-color: #ccc;
+  border-radius: 10px;
+}
+
+.CategoryCarousel-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  flex-shrink: 0;
+  width: 85px;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.CategoryCarousel-item:hover {
+  transform: translateY(-5px);
+}
+
+.CategoryCarousel-imageWrapper {
+  width: 75px;
+  height: 75px;
+  background-color: #f8f8f8;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.CategoryCarousel-image {
+  width: 60%;
+  height: 60%;
+  object-fit: contain;
+}
+
+.CategoryCarousel-name {
+  margin-top: 0.8rem; /* más espacio entre imagen y texto */
+  font-size: 0.85rem;
+  color: #333;
+  font-weight: 600;
+  white-space: nowrap;
+  letter-spacing: 0.3px; /* separación entre letras */
+  line-height: 1.3;
+}
