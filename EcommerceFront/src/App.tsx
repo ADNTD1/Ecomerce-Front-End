@@ -1,35 +1,45 @@
+import React from "react";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import LandingPage from './LandingPage'; // Asegúrate de crear este component
+import Step1 from "./Pasos/paso1";
+import Step2 from "./Pasos/step2";
+import Step3 from "./Pasos/step3";
+import Step4 from "./Pasos/step4";
+import Step5 from "./Pasos/step5";
+import Step6 from "./Pasos/step6";
+import Step7 from "./Pasos/step7";
+import Step8 from "./Pasos/step8";
+import Step9 from "./Pasos/step9";
 
-import './App.css'
-import Navbar from './components/Navbar'
-import Header from './components/Header'
-import PromoBanner from './components/Promobanner'
-import CategoryCarousel from './components/CategoryCarousel';
-import ProductGrid from './components/ProductGrid';
-
-
-
-function App() {
-  
-
+const App: React.FC = () => {
   return (
-    <>
-    <div>
-      <Navbar/>
-    </div>
-    <div>
-      <Header/>
-    </div>
-    <div>
-      <PromoBanner/>
-    </div>
-    <div>
-        <CategoryCarousel/>
-    </div>
-    <ProductGrid/>
+    <BrowserRouter>
+      <Routes>
 
-    </>
+        <Route path="/" element={<Navigate to="/landing" />} />
 
-  )
-}
+        <Route path="/landing" element={<LandingPage />} />
 
-export default App
+        <Route path="/landing/step1" element={<Step1 />} />
+        
+        <Route path="/landing/step2" element={<Step2 />} />
+
+        <Route path="/landing/step3" element={<Step3 />} />
+
+        <Route path="/landing/step4" element={<Step4 />} />
+
+        <Route path="/landing/step5" element={<Step5 />} />
+
+        <Route path="/landing/step6" element={<Step6 />} />
+
+        <Route path="/landing/step7" element={<Step7 />} />
+
+        <Route path="/landing/step8" element={<Step8 />} />
+
+        <Route path="/landing/step9" element={<Step9 />} />
+      </Routes>
+    </BrowserRouter>
+  );
+};
+
+export default App;
