@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import ProductCard from "../components/ProductCard";
+import Navbar from "../components/Navbar";
+import Header from "../components/Header";
 
 interface SSD {
   id: number;
@@ -52,76 +54,80 @@ const Step7: React.FC = () => {
   if (loading) return <p>Cargando SSDs...</p>;
 
   return (
-    <section style={{ textAlign: "center", padding: "2rem" }}>
-      <h2>Selecciona tu SSD</h2>
+    <>
+      <Navbar />
+      <Header />
+      <section style={{ textAlign: "center", padding: "2rem" }}>
+        <h2>Selecciona tu SSD</h2>
 
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          gap: "2rem",
-          flexWrap: "wrap",
-          marginTop: "2rem",
-        }}
-      >
-        {ssds.map(ssd => (
-          <div
-            key={ssd.id}
-            onClick={() => setSelectedSSD(ssd)}
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            gap: "2rem",
+            flexWrap: "wrap",
+            marginTop: "2rem",
+          }}
+        >
+          {ssds.map(ssd => (
+            <div
+              key={ssd.id}
+              onClick={() => setSelectedSSD(ssd)}
+              style={{
+                border:
+                  selectedSSD?.id === ssd.id
+                    ? "3px solid #007bff"
+                    : "2px solid transparent",
+                borderRadius: "10px",
+                padding: "0.3rem",
+                cursor: "pointer",
+              }}
+            >
+              <ProductCard
+                name={ssd.name}
+                brand={ssd.type || "SSD"}
+                price={ssd.price}
+                stock={ssd.stock}
+                imageUrl={ssd.imageUrl}
+              />
+            </div>
+          ))}
+        </div>
+
+        <div style={{ marginTop: "2rem", display: "flex", justifyContent: "center", gap: "1rem" }}>
+          <button
+            onClick={handleBack}
             style={{
-              border:
-                selectedSSD?.id === ssd.id
-                  ? "3px solid #007bff"
-                  : "2px solid transparent",
-              borderRadius: "10px",
-              padding: "0.3rem",
+              padding: "0.8rem 1.2rem",
+              fontSize: "1rem",
+              borderRadius: "5px",
+              border: "none",
+              backgroundColor: "#6c757d",
+              color: "#fff",
               cursor: "pointer",
             }}
           >
-            <ProductCard
-              name={ssd.name}
-              brand={ssd.type || "SSD"}
-              price={ssd.price}
-              stock={ssd.stock}
-              imageUrl={ssd.imageUrl}
-            />
-          </div>
-        ))}
-      </div>
+            ← Atrás
+          </button>
 
-      <div style={{ marginTop: "2rem", display: "flex", justifyContent: "center", gap: "1rem" }}>
-        <button
-          onClick={handleBack}
-          style={{
-            padding: "0.8rem 1.2rem",
-            fontSize: "1rem",
-            borderRadius: "5px",
-            border: "none",
-            backgroundColor: "#6c757d",
-            color: "#fff",
-            cursor: "pointer",
-          }}
-        >
-          ← Atrás
-        </button>
-
-        <button
-          onClick={handleNext}
-          disabled={!selectedSSD}
-          style={{
-            padding: "0.8rem 1.5rem",
-            fontSize: "1rem",
-            borderRadius: "5px",
-            border: "none",
-            backgroundColor: selectedSSD ? "#007bff" : "#ccc",
-            color: "#fff",
-            cursor: selectedSSD ? "pointer" : "not-allowed",
-          }}
-        >
-          Siguiente
-        </button>
-      </div>
-    </section>
+          <button
+            onClick={handleNext}
+            disabled={!selectedSSD}
+            style={{
+              padding: "0.8rem 1.5rem",
+              fontSize: "1rem",
+              borderRadius: "5px",
+              border: "none",
+              backgroundColor: selectedSSD ? "#007bff" : "#ccc",
+              color: "#fff",
+              cursor: selectedSSD ? "pointer" : "not-allowed",
+            }}
+          >
+            Siguiente
+          </button>
+        </div>
+      </section>
+    </>
   );
 };
 

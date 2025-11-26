@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import ProductCard from "../components/ProductCard";
+import Navbar from "../components/Navbar";
+import Header from "../components/Header";
 
 interface Motherboard {
   id: number;
@@ -10,8 +12,7 @@ interface Motherboard {
   price: number;
   stock: number;
   imageUrl: string;
-
-  socket: string;         
+  socket: string;
   chipset: string;
   maxRamGB: number;
   formFactor: string;
@@ -25,7 +26,6 @@ const Step3: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  // Paso 1 — Recibimos SocketType desde Step2
   const queryParams = new URLSearchParams(location.search);
   const socketType = queryParams.get("SocketType");
 
@@ -50,87 +50,90 @@ const Step3: React.FC = () => {
     if (!selectedMB)
       return alert("Selecciona una motherboard para continuar");
 
-    // Paso 2 — Mandamos el socket que llega en la respuesta
     navigate(`/landing/step4?SocketType=${selectedMB.socket}`);
   };
 
   const handleBack = () => {
-    navigate(-1); // retrocede al paso anterior
+    navigate(-1);
   };
 
   if (loading) return <p>Cargando motherboards...</p>;
 
   return (
-    <section style={{ textAlign: "center", padding: "2rem" }}>
-      <h2>Selecciona tu Motherboard</h2>
+    <>
+      <Navbar />
+      <Header />
+      <section style={{ textAlign: "center", padding: "2rem" }}>
+        <h2>Selecciona tu Motherboard</h2>
 
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          gap: "2rem",
-          flexWrap: "wrap",
-          marginTop: "2rem",
-        }}
-      >
-        {products.map((mb) => (
-          <div
-            key={mb.id}
-            onClick={() => setSelectedMB(mb)}
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            gap: "2rem",
+            flexWrap: "wrap",
+            marginTop: "2rem",
+          }}
+        >
+          {products.map((mb) => (
+            <div
+              key={mb.id}
+              onClick={() => setSelectedMB(mb)}
+              style={{
+                border:
+                  selectedMB?.id === mb.id
+                    ? "3px solid #007bff"
+                    : "2px solid transparent",
+                borderRadius: "10px",
+                padding: "0.3rem",
+                cursor: "pointer",
+              }}
+            >
+              <ProductCard
+                name={mb.name}
+                brand={mb.chipset}
+                price={mb.price}
+                stock={mb.stock}
+                imageUrl={mb.imageUrl}
+              />
+            </div>
+          ))}
+        </div>
+
+        <div style={{ marginTop: "2rem", display: "flex", justifyContent: "center", gap: "1rem" }}>
+          <button
+            onClick={handleBack}
             style={{
-              border:
-                selectedMB?.id === mb.id
-                  ? "3px solid #007bff"
-                  : "2px solid transparent",
-              borderRadius: "10px",
-              padding: "0.3rem",
+              padding: "0.8rem 1.2rem",
+              fontSize: "1rem",
+              borderRadius: "5px",
+              border: "none",
+              backgroundColor: "#6c757d",
+              color: "#fff",
               cursor: "pointer",
             }}
           >
-            <ProductCard
-              name={mb.name}
-              brand={mb.chipset}
-              price={mb.price}
-              stock={mb.stock}
-              imageUrl={mb.imageUrl}
-            />
-          </div>
-        ))}
-      </div>
+            ← Atrás
+          </button>
 
-      <div style={{ marginTop: "2rem", display: "flex", justifyContent: "center", gap: "1rem" }}>
-        <button
-          onClick={handleBack}
-          style={{
-            padding: "0.8rem 1.2rem",
-            fontSize: "1rem",
-            borderRadius: "5px",
-            border: "none",
-            backgroundColor: "#6c757d",
-            color: "#fff",
-            cursor: "pointer",
-          }}
-        >
-          ← Atrás
-        </button>
-
-        <button
-          onClick={handleNext}
-          disabled={!selectedMB}
-          style={{
-            padding: "0.8rem 1.5rem",
-            fontSize: "1rem",
-            borderRadius: "5px",
-            border: "none",
-            backgroundColor: selectedMB ? "#007bff" : "#ccc",
-            color: "#fff",
-            cursor: selectedMB ? "pointer" : "not-allowed",
-          }}
-        >
-          Siguiente
-        </button>
-      </div>
-    </section>
+          <button
+            onClick={handleNext}
+            disabled={!selectedMB}
+            style={{
+              padding: "0.8rem 1.5rem",
+              fontSize: "1rem",
+              borderRadius: "5px",
+              border: "none",
+              backgroundColor: selectedMB ? "#007bff" : "#ccc",
+              color: "#fff",
+              cursor: selectedMB ? "pointer" : "not-allowed",
+            }}
+          >
+            Siguiente
+          </button>
+        </div>
+      </section>
+    </>
   );
 };
 

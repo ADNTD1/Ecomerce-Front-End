@@ -1,6 +1,6 @@
 .Header {
     position: fixed;
-    top: 28.5px; 
+    top: 28.5px;
     left: 0;
     width: 100%;
     height: 55px;
@@ -24,13 +24,15 @@
     flex: 1;
     display: flex;
     justify-content: center;
+    align-items: center;
+    gap: 1rem;
 }
 
 /* Contenedor de iconos a la derecha */
 .Header-buttons {
     display: flex;
     gap: 2rem;
-     margin-right: 60px;
+    margin-right: 60px;
 }
 
 
@@ -42,4 +44,35 @@
 .Header-button:hover {
     color: #555;
     transform: scale(1.1);
+}
+
+/* Estilos para el botón Armar PC */
+.Header-step1-button {
+    background-color: #007bff;
+    color: white;
+    padding: 0.5rem 1.5rem;
+    font-size: 1rem;
+    font-weight: bold;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+
+    /* Solicitud del usuario: borde transparente y margen abajo grueso para resaltar */
+    border: 2px solid transparent;
+    border-bottom: 5px solid #0056b3;
+    /* Borde inferior grueso para efecto 3D/resalte */
+    margin-bottom: 5px;
+    /* Margen inferior adicional si se requiere separación */
+}
+
+.Header-step1-button:hover {
+    background-color: #0056b3;
+    transform: translateY(2px);
+    border-bottom: 3px solid #004494;
+    /* Efecto de presionar */
+}
+
+.Header-step1-button:active {
+    transform: translateY(5px);
+    border-bottom: 0px solid transparent;
 }

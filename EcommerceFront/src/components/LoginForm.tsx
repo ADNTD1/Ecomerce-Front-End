@@ -1,7 +1,11 @@
 import React, { useState } from "react";
 import "../styles/LoginForm.css";
 
-const LoginForm: React.FC = () => {
+interface LoginFormProps {
+  onLoginSuccess?: () => void;
+}
+
+const LoginForm: React.FC<LoginFormProps> = ({ onLoginSuccess }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
@@ -31,7 +35,7 @@ const LoginForm: React.FC = () => {
         throw new Error(rawBody || "Error en el inicio de sesión");
       }
 
-      let data: string | { message?: string } = {};
+      let data: string | { message?: string; user?: { id: number; email: string; fullName: string } } = {};
       try {
         if (contentType && contentType.includes("application/json")) {
           data = JSON.parse(rawBody);
@@ -50,6 +54,17 @@ const LoginForm: React.FC = () => {
         setMessage(data);
       } else {
         setMessage("Inicio de sesión exitoso");
+      }
+
+      // Extract userId from user object
+      if (typeof data === "object" && data !== null && "user" in data) {
+        const user = data.user as { id: number; email: string; fullName: string };
+        localStorage.setItem("userId", String(user.id));
+      }
+
+      localStorage.setItem("isAuthenticated", "true");
+      if (onLoginSuccess) {
+        onLoginSuccess();
       }
 
       // Limpiar formulario

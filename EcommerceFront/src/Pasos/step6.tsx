@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import ProductCard from "../components/ProductCard";
+import Navbar from "../components/Navbar";
+import Header from "../components/Header";
 
 interface RAM {
   id: number;
@@ -56,74 +58,78 @@ const Step6: React.FC = () => {
   if (!rams.length) return <p>No se encontraron memorias RAM compatibles</p>;
 
   return (
-    <section style={{ textAlign: "center", padding: "2rem" }}>
-      <h2>Selecciona tu memoria RAM</h2>
+    <>
+      <Navbar />
+      <Header />
+      <section style={{ textAlign: "center", padding: "2rem" }}>
+        <h2>Selecciona tu memoria RAM</h2>
 
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          flexWrap: "wrap",
-          gap: "2rem",
-          marginTop: "2rem",
-        }}
-      >
-        {rams.map((ram) => (
-          <div
-            key={ram.id}
-            onClick={() => setSelectedRAM(ram)}
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            flexWrap: "wrap",
+            gap: "2rem",
+            marginTop: "2rem",
+          }}
+        >
+          {rams.map((ram) => (
+            <div
+              key={ram.id}
+              onClick={() => setSelectedRAM(ram)}
+              style={{
+                border:
+                  selectedRAM?.id === ram.id ? "3px solid #007bff" : "2px solid transparent",
+                borderRadius: "10px",
+                padding: "0.3rem",
+                cursor: "pointer",
+              }}
+            >
+              <ProductCard
+                name={ram.name}
+                brand={ram.brand?.name || "RAM"}
+                price={ram.price}
+                stock={ram.stock}
+                imageUrl={ram.imageUrl}
+              />
+            </div>
+          ))}
+        </div>
+
+        <div style={{ marginTop: "2rem", display: "flex", justifyContent: "center", gap: "1rem" }}>
+          <button
+            onClick={handleBack}
             style={{
-              border:
-                selectedRAM?.id === ram.id ? "3px solid #007bff" : "2px solid transparent",
-              borderRadius: "10px",
-              padding: "0.3rem",
+              padding: "0.8rem 1.2rem",
+              fontSize: "1rem",
+              borderRadius: "5px",
+              border: "none",
+              backgroundColor: "#6c757d",
+              color: "#fff",
               cursor: "pointer",
             }}
           >
-            <ProductCard
-              name={ram.name}
-              brand={ram.brand?.name || "RAM"}
-              price={ram.price}
-              stock={ram.stock}
-              imageUrl={ram.imageUrl}
-            />
-          </div>
-        ))}
-      </div>
+            ← Atrás
+          </button>
 
-      <div style={{ marginTop: "2rem", display: "flex", justifyContent: "center", gap: "1rem" }}>
-        <button
-          onClick={handleBack}
-          style={{
-            padding: "0.8rem 1.2rem",
-            fontSize: "1rem",
-            borderRadius: "5px",
-            border: "none",
-            backgroundColor: "#6c757d",
-            color: "#fff",
-            cursor: "pointer",
-          }}
-        >
-          ← Atrás
-        </button>
-
-        <button
-          onClick={handleNext}
-          disabled={!selectedRAM}
-          style={{
-            padding: "0.8rem 1.5rem",
-            fontSize: "1rem",
-            borderRadius: "5px",
-            border: "none",
-            backgroundColor: selectedRAM ? "#007bff" : "#ccc",
-            color: "#fff",
-            cursor: selectedRAM ? "pointer" : "not-allowed",
-          }}
-        >
-          Siguiente
-        </button>
-      </div>
-    </section>
+          <button
+            onClick={handleNext}
+            disabled={!selectedRAM}
+            style={{
+              padding: "0.8rem 1.5rem",
+              fontSize: "1rem",
+              borderRadius: "5px",
+              border: "none",
+              backgroundColor: selectedRAM ? "#007bff" : "#ccc",
+              color: "#fff",
+              cursor: selectedRAM ? "pointer" : "not-allowed",
+            }}
+          >
+            Siguiente
+          </button>
+        </div>
+      </section>
+    </>
   );
 };
 

@@ -20,8 +20,13 @@ const LandingPage: React.FC = () => {
       {/* Carrusel de categorías */}
       <CategoryCarousel />
 
-      {/* Grid de productos */}
-      <ProductGrid />
+      {/* Grid de productos - PCs */}
+      <h2 style={{ textAlign: 'center', margin: '2rem 0 1rem' }}>Computadoras Pre-Ensambladas</h2>
+      <ProductGrid endpoint="/pcs" />
+
+      {/* Grid de productos - Laptops */}
+      <h2 style={{ textAlign: 'center', margin: '2rem 0 1rem' }}>Laptops</h2>
+      <ProductGrid endpoint="/laptops" />
     </main>
   );
 };
