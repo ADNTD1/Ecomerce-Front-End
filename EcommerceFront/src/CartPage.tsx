@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import Navbar from "./components/Navbar";
 import Header from "./components/Header";
 import Notification from "./components/Notification";
+import CheckoutModal, { type CheckoutDetails } from "./components/CheckoutModal";
 import "./styles/CartPage.css";
 
 interface CartItem {
@@ -18,21 +19,28 @@ interface CartItem {
 const CartPage: React.FC = () => {
     const [cartItems, setCartItems] = useState<CartItem[]>([]);
     const [notification, setNotification] = useState<{ message: string; type: 'success' | 'error' | 'info' } | null>(null);
+    const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
 
     useEffect(() => {
         const fetchCart = async () => {
-            const userId = localStorage.getItem("userId");
-            if (!userId) return;
-
-            try {
-                const res = await fetch(`https://localhost:7192/api/Cart/${userId}`);
-                if (res.ok) {
-                    const data = await res.json();
-                    // Assuming the API returns an object with an 'items' array
-                    setCartItems(data.items || []);
+            // Priority: Local Storage
+            const storedCart = localStorage.getItem("cart");
+            if (storedCart) {
+                setCartItems(JSON.parse(storedCart));
+            } else {
+                // Fallback: API if user is logged in
+                const userId = localStorage.getItem("userId");
+                if (userId) {
+                    try {
+                        const res = await fetch(`https://localhost:7192/api/Cart/${userId}`);
+                        if (res.ok) {
+                            const data = await res.json();
+                            setCartItems(data.items || []);
+                        }
+                    } catch (error) {
+                        console.error("Error fetching cart:", error);
+                    }
                 }
-            } catch (error) {
-                console.error("Error fetching cart:", error);
             }
         };
 
@@ -44,19 +52,18 @@ const CartPage: React.FC = () => {
     };
 
     const handleRemoveItem = async (itemId: number) => {
-        try {
-            const res = await fetch(`https://localhost:7192/api/Cart/delete/${itemId}`, {
-                method: "DELETE",
-            });
-            if (res.ok) {
-                setCartItems((prev) => prev.filter((item) => item.id !== itemId));
-                showNotification("Producto eliminado del carrito", "success");
-            } else {
-                showNotification("Error al eliminar el producto", "error");
-            }
-        } catch (error) {
-            console.error("Error deleting item:", error);
-            showNotification("Error de conexión al eliminar el producto", "error");
+        // Remove from Local Storage
+        const updatedCart = cartItems.filter((item) => item.id !== itemId);
+        setCartItems(updatedCart);
+        localStorage.setItem("cart", JSON.stringify(updatedCart));
+        showNotification("Producto eliminado del carrito", "success");
+
+        // Optional: Remove from API if logged in
+        const userId = localStorage.getItem("userId");
+        if (userId) {
+            try {
+                await fetch(`https://localhost:7192/api/Cart/delete/${itemId}`, { method: "DELETE" });
+            } catch (e) { /* Ignore */ }
         }
     };
 
@@ -68,7 +75,32 @@ const CartPage: React.FC = () => {
     };
 
     const handleCheckout = () => {
-        showNotification("Procediendo al pago... (Funcionalidad en desarrollo)", "info");
+        setIsCheckoutOpen(true);
+    };
+
+    const handleConfirmCheckout = (details: CheckoutDetails) => {
+        console.log("Processing payment for:", details);
+
+        // Create Order Object
+        const newOrder = {
+            id: Date.now().toString(),
+            date: new Date().toISOString(),
+            total: calculateTotal(),
+            items: cartItems,
+            details: details
+        };
+
+        // Save to Local Storage
+        const storedOrders = localStorage.getItem("orders");
+        const orders = storedOrders ? JSON.parse(storedOrders) : [];
+        orders.push(newOrder);
+        localStorage.setItem("orders", JSON.stringify(orders));
+
+        setIsCheckoutOpen(false);
+        setCartItems([]);
+        localStorage.removeItem("cart");
+        showNotification("¡Compra realizada con éxito!", "success");
+        // Here you would typically send the order to the backend
     };
 
     return (
@@ -116,6 +148,11 @@ const CartPage: React.FC = () => {
                     </>
                 )}
             </div>
+            <CheckoutModal
+                isOpen={isCheckoutOpen}
+                onClose={() => setIsCheckoutOpen(false)}
+                onSubmit={handleConfirmCheckout}
+            />
         </div>
     );
 };

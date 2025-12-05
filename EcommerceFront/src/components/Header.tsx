@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import SearchBar from './SearchBar';
 import Notification from './Notification';
 
-import { FiShoppingCart, FiBell } from 'react-icons/fi';
+import { FiShoppingCart, FiBell, FiPackage } from 'react-icons/fi';
 import '../styles/Header.css';
 
 const Header: React.FC = () => {
@@ -52,6 +52,9 @@ const Header: React.FC = () => {
         </div>
 
         <div className="Header-buttons">
+          <div className="Header-button" onClick={() => navigate("/orders")} style={{ cursor: "pointer" }}>
+            <FiPackage size={24} title="Mis Pedidos" />
+          </div>
           <div className="Header-button" onClick={() => {
             const auth = localStorage.getItem("isAuthenticated");
             if (auth === "true") {

@@ -1,0 +1,96 @@
+.OrdersPage {
+    padding: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.OrdersPage-title {
+    text-align: center;
+    margin-bottom: 2rem;
+    color: #333;
+}
+
+.OrdersPage-empty {
+    text-align: center;
+    font-size: 1.2rem;
+    color: #666;
+}
+
+.OrdersPage-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.OrderCard {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 1.5rem;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.OrderCard-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 1rem;
+    margin-bottom: 1rem;
+}
+
+.OrderCard-header h3 {
+    margin: 0;
+    color: #007bff;
+}
+
+.OrderCard-date {
+    color: #888;
+    font-size: 0.9rem;
+}
+
+.OrderCard-details {
+    margin-bottom: 1rem;
+    font-size: 0.95rem;
+    color: #555;
+}
+
+.OrderCard-items {
+    display: flex;
+    gap: 1rem;
+    overflow-x: auto;
+    padding-top: 0.5rem;
+}
+
+.OrderCard-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100px;
+    flex-shrink: 0;
+}
+
+.OrderCard-item-image {
+    width: 80px;
+    height: 80px;
+    object-fit: contain;
+    border: 1px solid #eee;
+    border-radius: 4px;
+    margin-bottom: 0.5rem;
+}
+
+.OrderCard-item-name {
+    font-size: 0.8rem;
+    text-align: center;
+    margin: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 100%;
+}
+
+.OrderCard-item-qty {
+    font-size: 0.8rem;
+    color: #888;
+    margin: 0;
+}

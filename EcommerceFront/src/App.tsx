@@ -15,6 +15,7 @@ import ProductDetail from "./ProductDetail";
 
 import CategoryPage from "./CategotyPage";
 import CartPage from "./CartPage";
+import OrdersPage from "./OrdersPage";
 
 const App: React.FC = () => {
   return (
@@ -48,6 +49,8 @@ const App: React.FC = () => {
         <Route path="/category/:id" element={<CategoryPage />} />
 
         <Route path="/cart" element={<CartPage />} />
+
+        <Route path="/orders" element={<OrdersPage />} />
 
       </Routes>
     </BrowserRouter>

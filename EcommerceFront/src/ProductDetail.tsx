@@ -34,44 +34,48 @@ export default function ProductDetail() {
     const addToCart = async () => {
         if (!product) return;
 
-        const auth = localStorage.getItem("isAuthenticated");
-        if (auth !== "true") {
-            showNotification("Inicia sesión para agregar productos.", "error");
-            return;
-        }
-
-        const userId = localStorage.getItem("userId");
-        if (!userId) {
-            showNotification("Error: No se encontró el usuario. Por favor, inicia sesión nuevamente.", "error");
-            return;
-        }
-
-        try {
-            const requestBody = {
-                ProductId: product.id,
-                Quantity: 1,
-            };
-
-            console.log("Sending to cart:", requestBody);
-
-            const response = await fetch(`https://localhost:7192/api/Cart/${userId}/add`, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(requestBody),
-            });
-
-            if (response.ok) {
-                showNotification("Producto agregado al carrito", "success");
-            } else {
-                const errorText = await response.text();
-                console.error("Error response:", response.status, errorText);
-                showNotification(`Error al agregar al carrito: ${response.status}`, "error");
+        // Local Storage Persistence
+        const cartItem = {
+            id: Date.now(), // Temporary ID for local item
+            productId: product.id,
+            quantity: 1,
+            product: {
+                name: product.name,
+                price: product.price,
+                imageUrl: product.imageUrl,
             }
-        } catch (error) {
-            console.error("Error adding to cart:", error);
-            showNotification("Error de conexión al agregar al carrito", "error");
+        };
+
+        const storedCart = localStorage.getItem("cart");
+        let cart = storedCart ? JSON.parse(storedCart) : [];
+
+        // Check if item already exists
+        const existingItemIndex = cart.findIndex((item: any) => item.productId === product.id);
+        if (existingItemIndex >= 0) {
+            cart[existingItemIndex].quantity += 1;
+        } else {
+            cart.push(cartItem);
+        }
+
+        localStorage.setItem("cart", JSON.stringify(cart));
+        showNotification("Producto agregado al carrito (Local)", "success");
+
+        // Optional: Keep API call if user is logged in, but don't block on it
+        const userId = localStorage.getItem("userId");
+        if (userId) {
+            try {
+                const requestBody = {
+                    ProductId: product.id,
+                    Quantity: 1,
+                };
+                fetch(`https://localhost:7192/api/Cart/${userId}/add`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(requestBody),
+                }).catch(err => console.error("API Cart Error:", err));
+            } catch (e) {
+                // Ignore API errors for now as we rely on local storage
+            }
         }
     };
 
